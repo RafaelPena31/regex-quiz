@@ -5,7 +5,7 @@ import { colors } from '../style/colors'
 export default function SplashScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>RG</Text>
+      <Text style={styles.title}>sdfsdfsdf</Text>
     </View>
   )
 }
