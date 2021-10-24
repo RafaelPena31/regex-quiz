@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "976733513453",
+    "project_id": "regex-quiz-bcd18",
+    "storage_bucket": "regex-quiz-bcd18.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:976733513453:android:fd9f81e19b00661e438ee4",
+        "android_client_info": {
+          "package_name": "com.regexquiz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "976733513453-1a44l5oafv0d3pp27nit86svn8gl32ui.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChjKXDP4ZMyFOccB3B7e1Ee_lMMXdPukU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "976733513453-1a44l5oafv0d3pp27nit86svn8gl32ui.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
