@@ -5,7 +5,8 @@ import { colors } from '../style/colors'
 export default function SplashScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>sdfsdfsdf</Text>
+      <Text style={styles.title}>(.*)</Text>
+      <Text style={styles.logo}>RegEx</Text>
     </View>
   )
 }
@@ -13,7 +14,19 @@ export default function SplashScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background
+    backgroundColor: colors.background,
+    padding: 24
   },
-  title: {}
+  title: {
+    fontFamily: 'Roboto-Medium',
+    textAlign: 'center',
+    fontSize: 48,
+    color: colors.primary2
+  },
+  logo: {
+    fontFamily: 'Poppins-Medium',
+    textAlign: 'center',
+    fontSize: 48,
+    color: colors.primary
+  }
 })
