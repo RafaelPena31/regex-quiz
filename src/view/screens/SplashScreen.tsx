@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     color: colors.primary2
   },
   logo: {
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'FiraCode-Medium',
     textAlign: 'center',
     fontSize: 48,
     color: colors.primary

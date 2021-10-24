@@ -113,6 +113,11 @@
 		<string>RobotoMono-SemiBoldItalic.ttf</string>
 		<string>RobotoMono-Thin.ttf</string>
 		<string>RobotoMono-ThinItalic.ttf</string>
+		<string>FiraCode-Bold.ttf</string>
+		<string>FiraCode-Light.ttf</string>
+		<string>FiraCode-Medium.ttf</string>
+		<string>FiraCode-Regular.ttf</string>
+		<string>FiraCode-SemiBold.ttf</string>
 	</array>
 </dict>
 </plist>
