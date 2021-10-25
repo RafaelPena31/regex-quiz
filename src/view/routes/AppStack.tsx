@@ -1,6 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack'
 import React from 'react'
-import SplashScreen from '../screens/SplashScreen'
+import SignInScreen from '../screens/SignInScreen'
 
 export default function AppStack() {
   const { Navigator, Screen } = createStackNavigator()
@@ -10,7 +10,7 @@ export default function AppStack() {
 
   return (
     <Navigator screenOptions={screenOptions}>
-      <Screen name='Splash' component={SplashScreen} />
+      <Screen name='SignIn' component={SignInScreen} />
     </Navigator>
   )
 }
