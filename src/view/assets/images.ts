@@ -6,7 +6,8 @@ const images = {
   },
   welcome: {
     gallery: require('./img/welcome/gallery.png')
-  }
+  },
+  profilePic: require('./img/wearytraveller.jpeg')
 }
 
 export default images
