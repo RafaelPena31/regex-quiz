@@ -1,6 +1,19 @@
 export const colors = {
   background: '#fefefe',
-  primary: '#4E78EC',
-  primary2: '#3C8ED6',
-  secondary: '#6A5BE2'
+  primary: {
+    primary1: '#4E78EC',
+    primary2: '#3C8ED6'
+  },
+  secondary: {
+    secondary1: '#6F28E2',
+    secondary2: '#E8E9FD'
+  },
+  text: {
+    default: '#0F172A',
+    default2: '#475569'
+  },
+  neutral: {
+    border: '#E2E8F0',
+    inputBorder: '#94A3B8'
+  }
 }

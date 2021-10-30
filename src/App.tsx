@@ -1,17 +1,26 @@
 import { NavigationContainer } from '@react-navigation/native'
 import React from 'react'
 import { SafeAreaView, StatusBar, StyleSheet } from 'react-native'
+import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react'
+import configStore from './domain/redux/store'
 import AppStack from './view/routes/AppStack'
 import { colors } from './view/style/colors'
 
+const { persistor, store } = configStore
+
 const App = () => {
   return (
-    <NavigationContainer>
-      <SafeAreaView style={styles.appContainer}>
-        <StatusBar backgroundColor={colors.secondary} />
-        <AppStack />
-      </SafeAreaView>
-    </NavigationContainer>
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <NavigationContainer>
+          <SafeAreaView style={styles.appContainer}>
+            <StatusBar backgroundColor={colors.secondary.secondary2} barStyle='dark-content' />
+            <AppStack />
+          </SafeAreaView>
+        </NavigationContainer>
+      </PersistGate>
+    </Provider>
   )
 }
 

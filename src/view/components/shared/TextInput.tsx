@@ -1,19 +1,27 @@
 import React from 'react'
-import { KeyboardType, StyleSheet, Text, TextInput, View } from 'react-native'
+import { KeyboardType, StyleSheet, TextInput, View } from 'react-native'
+import { colors } from '../../style/colors'
 
 interface TextInputProps {
-  label: string
+  secureTextEntry?: boolean
+  placeholder?: string
 
   keyboardType?: KeyboardType
   value: string
   setValue: (value: string) => void
 }
 
-export default function Input({ label, keyboardType = 'default', value, setValue }: TextInputProps) {
+export default function Input({ secureTextEntry, placeholder = '', keyboardType = 'default', value, setValue }: TextInputProps) {
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>{label}</Text>
-      <TextInput style={styles.input} keyboardType={keyboardType} value={value} onChangeText={setValue} />
+      <TextInput
+        style={styles.input}
+        secureTextEntry={secureTextEntry}
+        keyboardType={keyboardType}
+        placeholder={placeholder}
+        value={value}
+        onChangeText={setValue}
+      />
     </View>
   )
 }
@@ -27,8 +35,9 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 50,
     paddingLeft: 12,
-    backgroundColor: '#fefefe',
-    marginVertical: 10,
-    borderRadius: 8
+    marginVertical: 6,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: colors.neutral.inputBorder
   }
 })
