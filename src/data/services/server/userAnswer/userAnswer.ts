@@ -7,13 +7,13 @@ import { updateUserAnswer } from './repositories/update'
 import { IUserAnswerMethods } from './types/IUserAnswer'
 
 const userAnswerServerService: IUserAnswerMethods = {
-  async create({ questionId, userAnswer, userId }) {
-    const userAnswerData = await createUserAnswer({ questionId, userAnswer, userId })
+  async create({ question_id, userAnswer, user_id }) {
+    const userAnswerData = await createUserAnswer({ question_id, userAnswer, user_id })
     return userAnswerData
   },
 
-  async update({ id, questionId, userAnswer, userId }) {
-    await updateUserAnswer({ id, questionId, userAnswer, userId })
+  async update({ id, question_id, userAnswer, user_id }) {
+    await updateUserAnswer({ id, question_id, userAnswer, user_id })
   },
 
   async findById(id) {

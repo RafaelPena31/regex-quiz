@@ -1,8 +1,8 @@
 interface IUpdateUserAnswer {
   id: string
-  userId?: string
+  user_id?: string
   userAnswer?: string
-  questionId?: string
+  question_id?: string
 }
 
 export type { IUpdateUserAnswer }
