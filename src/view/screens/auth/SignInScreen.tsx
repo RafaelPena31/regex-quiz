@@ -3,6 +3,7 @@ import { useNavigation } from '@react-navigation/native'
 import { Formik } from 'formik'
 import React from 'react'
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { showMessage } from 'react-native-flash-message'
 import { useDispatch } from 'react-redux'
 import { SetUser, UserModel } from '../../../domain/redux/UserStore'
 import images from '../../assets/images'
@@ -58,7 +59,16 @@ export default function SignInScreen() {
         })
         .catch(err => {
           console.error(err)
+          showMessage({
+            message: 'Não foi possível realizar o seu login, tente novamente mais tarde',
+            type: 'danger'
+          })
         })
+    } else {
+      showMessage({
+        message: 'Preencha com os dados corretos',
+        type: 'danger'
+      })
     }
   }
 

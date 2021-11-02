@@ -3,6 +3,7 @@ import { useNavigation } from '@react-navigation/native'
 import { Formik } from 'formik'
 import React from 'react'
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { showMessage } from 'react-native-flash-message'
 import { useDispatch } from 'react-redux'
 import { SetUser, UserModel } from '../../../domain/redux/UserStore'
 import images from '../../assets/images'
@@ -67,7 +68,16 @@ export default function SignUpScreen() {
         })
         .catch(err => {
           console.error(err)
+          showMessage({
+            message: 'Não foi possível criar a sua conta, tente novamente mais tarde',
+            type: 'danger'
+          })
         })
+    } else {
+      showMessage({
+        message: 'Preencha com os dados corretos',
+        type: 'danger'
+      })
     }
   }
 

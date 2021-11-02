@@ -12,8 +12,7 @@ import { colors } from '../../style/colors'
 import { helperRealHeightDimension } from '../../style/UIGlobalHelper'
 import ProfileButtonCard from './components/ProfileButtonCard'
 
-const { profilePic } = images
-const { standStudent } = images.hall
+const { standStudent, littleCompleteStudent } = images.hall
 
 const currentHeight = helperRealHeightDimension()
 
@@ -58,7 +57,7 @@ export default function ProfileInfoScreen() {
           <View style={styles.topHeader}>
             <BackButton onPress={goBack} />
 
-            <Image source={profilePic} style={styles.profileImage} />
+            <Image source={littleCompleteStudent} style={styles.profileImage} />
 
             <Text style={styles.label}>
               Aluno há <Text style={styles.bold}>6</Text> meses
@@ -111,7 +110,9 @@ const styles = StyleSheet.create({
     width: 135,
     height: 135,
     borderRadius: 67.5,
-    marginTop: 30
+    marginTop: 30,
+    borderWidth: 1,
+    borderColor: colors.neutral.border
   },
   label: {
     position: 'absolute',
