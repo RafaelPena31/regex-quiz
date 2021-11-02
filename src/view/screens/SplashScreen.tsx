@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native'
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { Image, StyleSheet, View } from 'react-native'
+import { UserAuthentication } from '../../domain/hooks/UserHook'
 import images from '../assets/images'
 import { colors } from '../style/colors'
 
@@ -8,13 +9,31 @@ const { horizontalLogo } = images.logo
 
 export default function SplashScreen() {
   const { navigate } = useNavigation()
-  useEffect(() => {
-    setTimeout(() => {
+  const isAuthenticated = UserAuthentication()
+
+  const onHandleNavigateAuthStack = useCallback(
+    () =>
       navigate('Auth', {
         screen: 'Welcome'
-      })
-    }, 1500)
-  }, [navigate])
+      }),
+    [navigate]
+  )
+
+  const onHandleNavigateHallStack = useCallback(
+    () =>
+      navigate('Hall', {
+        screen: 'MainHall'
+      }),
+    [navigate]
+  )
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      onHandleNavigateHallStack()
+    } else {
+      onHandleNavigateAuthStack()
+    }
+  }, [isAuthenticated, onHandleNavigateHallStack, onHandleNavigateAuthStack])
 
   return (
     <View style={styles.container}>

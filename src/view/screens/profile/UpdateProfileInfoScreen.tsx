@@ -1,10 +1,12 @@
-import auth from '@react-native-firebase/auth'
+import Auth from '@react-native-firebase/auth'
 import { useNavigation } from '@react-navigation/native'
 import { Formik } from 'formik'
 import React from 'react'
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { showMessage } from 'react-native-flash-message'
 import { useDispatch } from 'react-redux'
-import { SetUser, UserModel } from '../../../domain/redux/UserStore'
+import { useGetUser } from '../../../domain/hooks/UserHook'
+import { UpdateUser, UserDeepModel } from '../../../domain/redux/UserStore'
 import images from '../../assets/images'
 import BackButton from '../../components/shared/buttons/BackButton'
 import Button from '../../components/shared/buttons/Button'
@@ -23,18 +25,17 @@ const { horizontalLogo } = images.logo
 
 const currentHeight = helperRealHeightDimension()
 
-export default function SignUpScreen() {
-  const initialValues: InitialAuthProps = {
-    name: '',
-    email: '',
+export default function UpdateProfileInfoScreen() {
+  const { goBack } = useNavigation()
+  const dispatch = useDispatch()
+  const currentUser = useGetUser()
+
+  const initialValues = {
+    name: currentUser?.displayName ?? '',
+    email: currentUser?.email ?? '',
     password: '',
     confirmPassword: ''
   }
-
-  const dispatch = useDispatch()
-  const { goBack, navigate } = useNavigation()
-
-  const onPressNavigateToLoginAccount = () => navigate('SignIn')
 
   const onSubmit = async (values: InitialAuthProps) => {
     const { name, email, password, confirmPassword } = values
@@ -42,32 +43,38 @@ export default function SignUpScreen() {
       name.length > 1 && email.length > 5 && password.length >= 6 && confirmPassword.length >= 6 && password === confirmPassword
 
     if (isInputAvailable) {
-      auth()
-        .createUserWithEmailAndPassword(email, password)
-        .then(user => {
-          const { displayName, email, emailVerified, isAnonymous, metadata, phoneNumber, photoURL, providerId, uid } = user.user
-
-          user.user.updateProfile({
-            displayName: name
-          })
-
-          const userModel: UserModel = {
-            displayName,
-            email,
-            emailVerified,
-            isAnonymous,
-            metadata,
-            phoneNumber,
-            photoURL,
-            providerId,
-            uid
-          }
-
-          dispatch(SetUser(userModel))
+      try {
+        await Auth().currentUser?.updateEmail(email)
+        await Auth().currentUser?.updatePassword(password)
+        await Auth().currentUser?.updateProfile({
+          displayName: name,
+          photoURL: Auth().currentUser?.photoURL
         })
-        .catch(err => {
-          console.error(err)
+
+        const userModel: UserDeepModel = {
+          displayName: name,
+          email: email
+        }
+
+        dispatch(UpdateUser(userModel))
+
+        showMessage({
+          message: 'Dados atualizados com sucesso',
+          type: 'success',
+          onHide: () => goBack()
         })
+      } catch (error) {
+        console.error(error)
+        showMessage({
+          message: 'Não foi possível alterar os seus dados, tente deslogar e logar novamente',
+          type: 'danger'
+        })
+      }
+    } else {
+      showMessage({
+        message: 'Preencha os campos corretamente',
+        type: 'warning'
+      })
     }
   }
 
@@ -80,7 +87,7 @@ export default function SignUpScreen() {
 
         <View style={styles.logoStack}>
           <Image source={horizontalLogo} />
-          <Text style={styles.logoText}>crie sua conta Rgex agora e venha aprender como nunca antes</Text>
+          <Text style={styles.logoText}>Atualize seus dados e continue navegando em nossos conteúdos</Text>
         </View>
 
         <Formik initialValues={initialValues} onSubmit={onSubmit}>
@@ -97,16 +104,10 @@ export default function SignUpScreen() {
                   setValue={handleChange('confirmPassword')}
                 />
               </View>
-              <Button text='Crie sua conta' onPress={handleSubmit} />
+              <Button text='Salvar alterações' onPress={handleSubmit} />
             </View>
           )}
         </Formik>
-
-        <TouchableOpacity onPress={onPressNavigateToLoginAccount} style={styles.createAccountButton}>
-          <Text style={styles.createAccountTextButton}>
-            <Text style={styles.createAccountTextHighlight}>Já possuo uma conta</Text> para o Rgex
-          </Text>
-        </TouchableOpacity>
       </View>
     </ScrollView>
   )

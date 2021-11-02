@@ -15,9 +15,14 @@ export interface UserModel {
   uid: string
 }
 
+export interface UserDeepModel {
+  displayName: string
+  email: string
+}
+
 export const SET_USER = 'SET_USER'
 export const UPDATE_USER = 'UPDATE_USER'
-export const DELETE_USER = 'DELETE_USER'
+export const RESET_USER = 'RESET_USER'
 
 interface ISetUser {
   type: typeof SET_USER
@@ -26,19 +31,18 @@ interface ISetUser {
 
 interface IUpdateUser {
   type: typeof UPDATE_USER
-  payload: UserModel
+  payload: UserDeepModel
 }
 
-interface IDeleteUser {
-  type: typeof DELETE_USER
-  payload: string
+interface IResetUser {
+  type: typeof RESET_USER
 }
 
 export interface UserModelState {
   userStateData: UserModel | null
 }
 
-export type UserActions = ISetUser | IUpdateUser | IDeleteUser
+export type UserActions = ISetUser | IUpdateUser | IResetUser
 
 export const userState: UserModelState = {
   userStateData: null
@@ -54,9 +58,12 @@ export const UserReducer = (state = userState, action: UserActions) => {
     case UPDATE_USER:
       return {
         ...state,
-        userStateData: action.payload
+        userStateData: {
+          ...state.userStateData,
+          ...action.payload
+        } as UserModel
       }
-    case DELETE_USER:
+    case RESET_USER:
       return {
         ...state,
         userStateData: null
@@ -68,4 +75,12 @@ export const UserReducer = (state = userState, action: UserActions) => {
 
 export const SetUser = (userStateData: UserModel) => async (dispatch: Dispatch<UserActions>) => {
   dispatch({ type: SET_USER, payload: userStateData })
+}
+
+export const UpdateUser = (userStateData: UserDeepModel) => async (dispatch: Dispatch<UserActions>) => {
+  dispatch({ type: UPDATE_USER, payload: userStateData })
+}
+
+export const ResetUser = () => async (dispatch: Dispatch<UserActions>) => {
+  dispatch({ type: RESET_USER })
 }

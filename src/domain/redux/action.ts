@@ -1,3 +1,4 @@
+import { QuestionActions } from './QuestionStore'
 import { UserActions } from './UserStore'
 
-export type RootActions = UserActions
+export type RootActions = UserActions | QuestionActions
