@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native'
 import React from 'react'
 import { SafeAreaView, StatusBar, StyleSheet } from 'react-native'
+import FlashMessage from 'react-native-flash-message'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import configStore from './domain/redux/store'
@@ -17,6 +18,7 @@ const App = () => {
           <SafeAreaView style={styles.appContainer}>
             <StatusBar backgroundColor={colors.secondary.secondary2} barStyle='dark-content' />
             <AppStack />
+            <FlashMessage position='top' />
           </SafeAreaView>
         </NavigationContainer>
       </PersistGate>

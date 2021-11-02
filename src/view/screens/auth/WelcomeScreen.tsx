@@ -3,7 +3,7 @@ import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import images from '../../assets/images'
-import Button from '../../components/shared/Button'
+import Button from '../../components/shared/buttons/Button'
 import { colors } from '../../style/colors'
 
 const { welcome, logo } = images

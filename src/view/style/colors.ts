@@ -10,10 +10,13 @@ export const colors = {
   },
   text: {
     default: '#0F172A',
-    default2: '#475569'
+    default2: '#475569',
+    default3: '#828282'
   },
   neutral: {
     border: '#E2E8F0',
-    inputBorder: '#94A3B8'
-  }
+    inputBorder: '#94A3B8',
+    neutral: '#2E1D5F'
+  },
+  red: '#F96464'
 }

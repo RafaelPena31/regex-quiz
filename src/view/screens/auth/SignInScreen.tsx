@@ -2,15 +2,15 @@ import auth from '@react-native-firebase/auth'
 import { useNavigation } from '@react-navigation/native'
 import { Formik } from 'formik'
 import React from 'react'
-import { Dimensions, Image, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import ExtraDimensions from 'react-native-extra-dimensions-android'
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { SetUser, UserModel } from '../../../domain/redux/UserStore'
 import images from '../../assets/images'
-import BackButton from '../../components/shared/BackButton'
-import Button from '../../components/shared/Button'
+import BackButton from '../../components/shared/buttons/BackButton'
+import Button from '../../components/shared/buttons/Button'
 import Input from '../../components/shared/TextInput'
 import { colors } from '../../style/colors'
+import { helperRealHeightDimension } from '../../style/UIGlobalHelper'
 
 export interface InitialAuthProps {
   email: string
@@ -19,12 +19,7 @@ export interface InitialAuthProps {
 
 const { horizontalLogo } = images.logo
 
-const currentAndroidHeight =
-  ExtraDimensions.getRealWindowHeight() -
-  ExtraDimensions.getStatusBarHeight() -
-  ExtraDimensions.getSoftMenuBarHeight() -
-  ExtraDimensions.getSmartBarHeight()
-const currentHeight = Platform.OS === 'android' ? currentAndroidHeight : Dimensions.get('window').height
+const currentHeight = helperRealHeightDimension()
 
 export default function SignInScreen() {
   const initialValues = {
@@ -39,7 +34,7 @@ export default function SignInScreen() {
 
   const onSubmit = async (values: InitialAuthProps) => {
     const { email, password } = values
-    const isInputAvailable = email.length > 5 && password.length > 6
+    const isInputAvailable = email.length > 5 && password.length > 5
 
     if (isInputAvailable) {
       auth()

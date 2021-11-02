@@ -2,7 +2,8 @@ import auth from '@react-native-firebase/auth'
 import { createStackNavigator } from '@react-navigation/stack'
 import React, { useEffect, useState } from 'react'
 import SplashScreen from '../screens/SplashScreen'
-import AuthStack from './AuthStack'
+import AuthStack from './features/AuthStack'
+import RootStack from './RootStack'
 
 const { Navigator, Screen } = createStackNavigator()
 
@@ -24,8 +25,14 @@ export default function AppStack() {
 
   return (
     <Navigator screenOptions={screenOptions}>
-      <Screen name='Splash' component={SplashScreen} />
-      {!isAuth && <Screen name='Auth' component={AuthStack} />}
+      {isAuth ? (
+        <Screen name='Hall' component={RootStack} />
+      ) : (
+        <>
+          <Screen name='Splash' component={SplashScreen} />
+          <Screen name='Auth' component={AuthStack} />
+        </>
+      )}
     </Navigator>
   )
 }
