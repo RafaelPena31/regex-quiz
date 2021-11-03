@@ -8,7 +8,8 @@ const images = {
     bigStudent: require('./img/hall/big-student.png'),
     littleStudent: require('./img/hall/little-student.png'),
     littleCompleteStudent: require('./img/hall/little-complete-student.png'),
-    standStudent: require('./img/hall/stand-student.png')
+    standStudent: require('./img/hall/stand-student.png'),
+    coverArticleStudent: require('./img/hall/default-article-cover.png')
   },
   welcome: {
     gallery: require('./img/welcome/gallery.png')

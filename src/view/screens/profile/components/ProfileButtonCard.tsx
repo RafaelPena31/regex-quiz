@@ -17,7 +17,7 @@ export default function ProfileButtonCard({ text, onPress }: ProfileButtonCardPr
       <Image source={littleCompleteStudent} style={styles.littleStudentImage} />
       <Text style={styles.profileButtonCardText}>{text}</Text>
 
-      <TouchableOpacity style={styles.buttonRedirect}>
+      <TouchableOpacity style={styles.buttonRedirect} onPress={onPress}>
         <Icon name='right' size={22} color={colors.text.default2} />
       </TouchableOpacity>
     </TouchableOpacity>

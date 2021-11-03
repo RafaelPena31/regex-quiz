@@ -5,6 +5,8 @@ import { Image, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View 
 import Icon from 'react-native-vector-icons/Feather'
 import { useDispatch } from 'react-redux'
 import { useUserName } from '../../../domain/hooks/UserHook'
+import { ResetOpenedArticle } from '../../../domain/redux/ArticleStore'
+import { ResetAnswer, ResetQuestion } from '../../../domain/redux/QuestionStore'
 import { ResetUser } from '../../../domain/redux/UserStore'
 import images from '../../assets/images'
 import BackButton from '../../components/shared/buttons/BackButton'
@@ -30,8 +32,11 @@ export default function ProfileInfoScreen() {
   }
 
   const onHandleNavigateCompletedQuestions = useCallback(() => {
-    navigate('Hall', {
-      screen: 'CompletedQuestions'
+    navigate('Question', {
+      screen: 'QuestionHall',
+      params: {
+        isByFinishedChallenger: true
+      }
     })
   }, [navigate])
 
@@ -47,6 +52,9 @@ export default function ProfileInfoScreen() {
   const onHandleSignOut = useCallback(() => {
     Auth().signOut()
     dispatch(ResetUser())
+    dispatch(ResetQuestion())
+    dispatch(ResetAnswer())
+    dispatch(ResetOpenedArticle())
   }, [dispatch])
 
   return (

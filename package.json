@@ -18,6 +18,7 @@
     "@react-navigation/stack": "^5.14.5",
     "axios": "^0.24.0",
     "formik": "^2.2.9",
+    "moment": "^2.29.1",
     "react": "17.0.2",
     "react-native": "0.66.1",
     "react-native-extra-dimensions-android": "^1.2.5",

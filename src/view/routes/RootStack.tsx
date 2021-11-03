@@ -3,6 +3,7 @@ import React from 'react'
 import MainHallScreen from '../screens/hall/MainHallScreen'
 import ProfileStack from './features/ProfileStack'
 import QuestionStack from './features/QuestionStack'
+import StudyStack from './features/StudyStack'
 
 export default function RootStack() {
   const { Navigator, Screen } = createStackNavigator()
@@ -15,6 +16,7 @@ export default function RootStack() {
       <Screen name='MainHall' component={MainHallScreen} />
       <Screen name='Profile' component={ProfileStack} />
       <Screen name='Question' component={QuestionStack} />
+      <Screen name='Study' component={StudyStack} />
     </Navigator>
   )
 }

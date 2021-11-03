@@ -7,6 +7,9 @@ export const RESET_QUESTION = 'RESET_QUESTION'
 export const SET_ANSWER = 'SET_ANSWER'
 export const RESET_ANSWER = 'RESET_ANSWER'
 
+export const SET_FINISHED_CHALLENGER = 'SET_FINISHED_CHALLENGER'
+export const RESET_FINISHED_CHALLENGER = 'RESET_FINISHED_CHALLENGER'
+
 interface ISetQuestion {
   type: typeof SET_QUESTION
   payload: IQuestion[]
@@ -25,16 +28,27 @@ interface IResetAnswer {
   type: typeof RESET_ANSWER
 }
 
+interface ISetFinishedChallenger {
+  type: typeof SET_FINISHED_CHALLENGER
+  payload: number
+}
+
+interface IResetFinishedChallenger {
+  type: typeof RESET_FINISHED_CHALLENGER
+}
+
 export interface QuestionModelState {
   questionList: IQuestion[]
   answeredQuestions: Record<string, IAnswer> | null
+  finishedChallengers: number[]
 }
 
-export type QuestionActions = ISetQuestion | IResetQuestion | ISetAnswer | IResetAnswer
+export type QuestionActions = ISetQuestion | IResetQuestion | ISetAnswer | IResetAnswer | ISetFinishedChallenger | IResetFinishedChallenger
 
 export const questionState: QuestionModelState = {
   questionList: [],
-  answeredQuestions: null
+  answeredQuestions: null,
+  finishedChallengers: []
 }
 
 export const QuestionReducer = (state = questionState, action: QuestionActions) => {
@@ -59,6 +73,16 @@ export const QuestionReducer = (state = questionState, action: QuestionActions) 
         ...state,
         answeredQuestions: null
       }
+    case SET_FINISHED_CHALLENGER:
+      return {
+        ...state,
+        finishedChallengers: [...state.finishedChallengers, action.payload]
+      }
+    case RESET_FINISHED_CHALLENGER:
+      return {
+        ...state,
+        finishedChallengers: []
+      }
     default:
       return state
   }
@@ -78,4 +102,12 @@ export const SetAnswer = (answer: Record<string, IAnswer>) => async (dispatch: D
 
 export const ResetAnswer = () => async (dispatch: Dispatch<QuestionActions>) => {
   dispatch({ type: RESET_ANSWER })
+}
+
+export const SetFinishedChallenger = (challengerId: number) => async (dispatch: Dispatch<QuestionActions>) => {
+  dispatch({ type: SET_FINISHED_CHALLENGER, payload: challengerId })
+}
+
+export const ResetFinishedChallenger = () => async (dispatch: Dispatch<QuestionActions>) => {
+  dispatch({ type: RESET_FINISHED_CHALLENGER })
 }

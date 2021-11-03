@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/Feather'
 import { useDispatch } from 'react-redux'
 import { IAnswer, IQuestion } from '../../../data/services/server/question/types/entities/IQuestion'
 import { useQuestion } from '../../../domain/hooks/QuestionHook'
-import { SetAnswer } from '../../../domain/redux/QuestionStore'
+import { SetAnswer, SetFinishedChallenger } from '../../../domain/redux/QuestionStore'
 import { TypeQuestions } from '../../../domain/types/enum'
 import Button from '../../components/shared/buttons/Button'
 import { colors } from '../../style/colors'
@@ -245,6 +245,7 @@ export default function QuestionChallengerScreen({ route }: QuestionChallengerSc
     }
 
     dispatch(SetAnswer(answerList))
+    dispatch(SetFinishedChallenger(challengerId))
     navigate('Question', {
       screen: 'QuestionResult'
     })

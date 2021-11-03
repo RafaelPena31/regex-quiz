@@ -19,21 +19,11 @@ export default function SplashScreen() {
     [navigate]
   )
 
-  const onHandleNavigateHallStack = useCallback(
-    () =>
-      navigate('Hall', {
-        screen: 'MainHall'
-      }),
-    [navigate]
-  )
-
   useEffect(() => {
-    if (isAuthenticated) {
-      onHandleNavigateHallStack()
-    } else {
+    if (!isAuthenticated) {
       onHandleNavigateAuthStack()
     }
-  }, [isAuthenticated, onHandleNavigateHallStack, onHandleNavigateAuthStack])
+  }, [isAuthenticated, onHandleNavigateAuthStack])
 
   return (
     <View style={styles.container}>

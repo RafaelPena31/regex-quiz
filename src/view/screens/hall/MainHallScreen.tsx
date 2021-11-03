@@ -1,13 +1,15 @@
 import { useNavigation } from '@react-navigation/native'
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import Icon from 'react-native-vector-icons/Feather'
+import { author_linkedin_url } from '../../../configs/constants'
 import images from '../../assets/images'
 import Button from '../../components/shared/buttons/Button'
 import CardButton from '../../components/shared/buttons/CardButton'
 import ChipItem from '../../components/shared/ChipItem'
 import { colors } from '../../style/colors'
 import { helperRealHeightDimension } from '../../style/UIGlobalHelper'
+import AboutModal from './components/AboutModal'
 
 const { bigStudent } = images.hall
 
@@ -15,6 +17,7 @@ const currentHeight = helperRealHeightDimension()
 
 export default function MainHallScreen() {
   const { navigate } = useNavigation()
+  const [aboutVisible, setAboutVisible] = useState(false)
 
   const onHandleNavigateProfile = useCallback(() => {
     navigate('Hall', {
@@ -32,10 +35,14 @@ export default function MainHallScreen() {
   }, [navigate])
 
   const onHandleNavigateStudies = useCallback(() => {
-    navigate('Question', {
-      screen: 'QuestionHall'
+    navigate('Study', {
+      screen: 'StudyHall'
     })
   }, [navigate])
+
+  const onHandleChangeVisibleAboutModal = useCallback(() => {
+    setAboutVisible(state => !state)
+  }, [])
 
   return (
     <ScrollView style={{ flex: 1 }}>
@@ -76,7 +83,10 @@ export default function MainHallScreen() {
           <CardButton title='Estudo' dark onPress={onHandleNavigateStudies} />
           <CardButton title='Perfil' onPress={onHandleNavigateProfile} />
           <CardButton title='Testes' onPress={onHandleNavigateTests} />
+          <CardButton title='Sobre' dark onPress={onHandleChangeVisibleAboutModal} />
         </View>
+
+        <AboutModal url={author_linkedin_url} visible={aboutVisible} setVisible={onHandleChangeVisibleAboutModal} />
       </View>
     </ScrollView>
   )

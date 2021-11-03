@@ -1,8 +1,9 @@
-import { useNavigation } from '@react-navigation/native'
+import { RouteProp, useNavigation } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
 import { Image, ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { IQuestion } from '../../../data/services/server/question/types/entities/IQuestion'
+import { useChallenger } from '../../../domain/hooks/QuestionHook'
 import { SetQuestion } from '../../../domain/redux/QuestionStore'
 import { mockQuestions } from '../../../utils/mock'
 import images from '../../assets/images'
@@ -12,16 +13,26 @@ import { colors } from '../../style/colors'
 import { helperRealHeightDimension } from '../../style/UIGlobalHelper'
 import { TOTAL_QUESTION_COUNT } from './constants/QuestionConstants'
 
+interface NavigationParams {
+  isByFinishedChallenger: boolean
+}
+
+type QuestionChallengerScreenProps = {
+  route: RouteProp<Record<string, NavigationParams>, 'RouteParam'>
+}
+
 const { littleCompleteStudent } = images.hall
 
 const currentHeight = helperRealHeightDimension()
 
-export default function QuestionHallScreen() {
+export default function QuestionHallScreen({ route }: QuestionChallengerScreenProps) {
   const { goBack, navigate } = useNavigation()
   const dispatch = useDispatch()
 
   const [questionList, setQuestionList] = useState<IQuestion[]>([])
   const [challengerCount, setChallengerCount] = useState<number[]>([])
+
+  const finishedChallenger = useChallenger()
 
   useEffect(() => {
     setQuestionList(mockQuestions)
@@ -46,6 +57,20 @@ export default function QuestionHallScreen() {
     })
   }
 
+  const getDescriptionText = () => {
+    if (route.params && route.params.isByFinishedChallenger) return 'Esses são os desafios que você já finalizou, gostaria de refazê-los?'
+    return 'Selecione um desafio para participar'
+  }
+
+  const getFinishedChallengers = (countChallenger: number) => {
+    const isByFinishedChallengerAvailable = !!(route.params && route.params.isByFinishedChallenger)
+
+    if (isByFinishedChallengerAvailable) {
+      return finishedChallenger.includes(countChallenger)
+    }
+    return true
+  }
+
   return (
     <>
       <StatusBar backgroundColor={colors.background} barStyle='dark-content' />
@@ -56,20 +81,24 @@ export default function QuestionHallScreen() {
 
             <View style={styles.contentHeader}>
               <Image source={littleCompleteStudent} style={styles.headerImage} />
-              <Text style={styles.descriptionHeaderText}>Selecione um desafio para participar</Text>
+              <Text style={styles.descriptionHeaderText}>{getDescriptionText()}</Text>
             </View>
           </View>
 
           <View style={styles.cardOptionStack}>
-            {challengerCount.map((countChallenger, index) => (
-              <CardButton
-                key={countChallenger}
-                title={countChallenger.toString()}
-                text='Desafio'
-                dark={index === 0}
-                onPress={() => onHandleStartChallenger(countChallenger)}
-              />
-            ))}
+            {challengerCount.map((countChallenger, index) => {
+              return getFinishedChallengers(countChallenger) ? (
+                <CardButton
+                  key={countChallenger}
+                  title={countChallenger.toString()}
+                  text='Desafio'
+                  dark={index === 0}
+                  onPress={() => onHandleStartChallenger(countChallenger)}
+                />
+              ) : (
+                <View key={countChallenger} />
+              )
+            })}
           </View>
         </View>
       </ScrollView>
