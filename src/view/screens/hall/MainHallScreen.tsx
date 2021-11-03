@@ -3,6 +3,7 @@ import React, { useCallback, useState } from 'react'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import Icon from 'react-native-vector-icons/Feather'
 import { author_linkedin_url } from '../../../configs/constants'
+import { useGetScore } from '../../../domain/hooks/UserHook'
 import images from '../../assets/images'
 import Button from '../../components/shared/buttons/Button'
 import CardButton from '../../components/shared/buttons/CardButton'
@@ -18,6 +19,8 @@ const currentHeight = helperRealHeightDimension()
 export default function MainHallScreen() {
   const { navigate } = useNavigation()
   const [aboutVisible, setAboutVisible] = useState(false)
+
+  const userScore = useGetScore()
 
   const onHandleNavigateProfile = useCallback(() => {
     navigate('Hall', {
@@ -55,7 +58,7 @@ export default function MainHallScreen() {
             </View>
 
             <View style={styles.subLine}>
-              <Text style={styles.pointText}>1260</Text>
+              <Text style={styles.pointText}>{userScore}</Text>
               <Icon style={styles.awardIcon} name='award' size={24} color={colors.text.default} />
             </View>
           </View>

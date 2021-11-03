@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux'
-import { IArticle } from '../types/article'
+import { IArticle } from '../../data/services/server/article/ArticleTypes'
 
 export const SET_ARTICLE = 'SET_ARTICLE'
 export const RESET_ARTICLE = 'RESET_ARTICLE'

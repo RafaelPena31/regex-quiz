@@ -1,4 +1,4 @@
-import { IAnswer } from '../../../../data/services/server/question/types/entities/IQuestion'
+import { IAnswer } from '../../../../data/services/server/userAnswer/AnswerTypes'
 
 export const AnswerTemplateObject: Record<string, IAnswer> = {
   question_1: {

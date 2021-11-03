@@ -1,4 +1,4 @@
-import { IQuestion } from '../data/services/server/question/types/entities/IQuestion'
+import { IQuestion } from '../data/services/server/question/QuestionTypes'
 import { TypeQuestions } from '../domain/types/enum'
 
 export const mockQuestions: IQuestion[] = [

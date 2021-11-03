@@ -4,7 +4,7 @@ import React, { useCallback } from 'react'
 import { Image, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Icon from 'react-native-vector-icons/Feather'
 import { useDispatch } from 'react-redux'
-import { useUserName } from '../../../domain/hooks/UserHook'
+import { useGetScore, useUserName } from '../../../domain/hooks/UserHook'
 import { ResetOpenedArticle } from '../../../domain/redux/ArticleStore'
 import { ResetAnswer, ResetQuestion } from '../../../domain/redux/QuestionStore'
 import { ResetUser } from '../../../domain/redux/UserStore'
@@ -22,6 +22,7 @@ export default function ProfileInfoScreen() {
   const { goBack, navigate } = useNavigation()
   const dispatch = useDispatch()
   const userName = useUserName()
+  const userScore = useGetScore()
 
   const getName = (text?: string | null) => {
     if (text) {
@@ -77,7 +78,7 @@ export default function ProfileInfoScreen() {
               <View style={styles.pointContainer}>
                 <Icon name='award' size={24} color={colors.text.default} />
                 <Text style={styles.pointTitle}>Pontos:</Text>
-                <Text style={styles.pointText}>1260</Text>
+                <Text style={styles.pointText}>{userScore}</Text>
               </View>
             </View>
           </View>

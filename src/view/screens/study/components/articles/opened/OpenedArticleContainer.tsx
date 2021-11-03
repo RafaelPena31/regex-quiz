@@ -13,16 +13,19 @@ export default function OpenedArticleContainer() {
 
   const { navigate } = useNavigation()
 
-  const onHandleNavigateArticlePage = useCallback((articleId: string) => {
-    dispatch(SetOpenedArticle(articleId))
+  const onHandleNavigateArticlePage = useCallback(
+    (articleId: string) => {
+      dispatch(SetOpenedArticle(articleId))
 
-    navigate('Study', {
-      screen: 'StudyArticle',
-      params: {
-        articleId
-      }
-    })
-  }, [])
+      navigate('Study', {
+        screen: 'StudyArticle',
+        params: {
+          articleId
+        }
+      })
+    },
+    [dispatch, navigate]
+  )
 
   return (
     <View style={styles.container}>

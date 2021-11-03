@@ -1,19 +1,5 @@
 import { Dispatch } from 'redux'
-
-export interface UserModel {
-  displayName: string | null
-  email: string | null
-  emailVerified: boolean
-  isAnonymous: boolean
-  metadata: {
-    creationTime?: string
-    lastSignInTime?: string
-  }
-  phoneNumber: string | null
-  photoURL: string | null
-  providerId: string
-  uid: string
-}
+import { UserModel, UserModelSQL } from '../../data/services/server/user/UserTypes'
 
 export interface UserDeepModel {
   displayName: string
@@ -22,6 +8,9 @@ export interface UserDeepModel {
 
 export const SET_USER = 'SET_USER'
 export const UPDATE_USER = 'UPDATE_USER'
+
+export const SET_SQL_USER = 'SET_SQL_USER'
+
 export const RESET_USER = 'RESET_USER'
 
 interface ISetUser {
@@ -34,18 +23,25 @@ interface IUpdateUser {
   payload: UserDeepModel
 }
 
+interface ISetSQLUser {
+  type: typeof SET_SQL_USER
+  payload: UserModelSQL
+}
+
 interface IResetUser {
   type: typeof RESET_USER
 }
 
 export interface UserModelState {
   userStateData: UserModel | null
+  userSQLStateData: UserModelSQL | null
 }
 
-export type UserActions = ISetUser | IUpdateUser | IResetUser
+export type UserActions = ISetUser | IUpdateUser | ISetSQLUser | IResetUser
 
 export const userState: UserModelState = {
-  userStateData: null
+  userStateData: null,
+  userSQLStateData: null
 }
 
 export const UserReducer = (state = userState, action: UserActions) => {
@@ -63,10 +59,16 @@ export const UserReducer = (state = userState, action: UserActions) => {
           ...action.payload
         } as UserModel
       }
+    case SET_SQL_USER:
+      return {
+        ...state,
+        userSQLStateData: action.payload
+      }
     case RESET_USER:
       return {
         ...state,
-        userStateData: null
+        userStateData: null,
+        userSQLStateData: null
       }
     default:
       return state
@@ -79,6 +81,10 @@ export const SetUser = (userStateData: UserModel) => async (dispatch: Dispatch<U
 
 export const UpdateUser = (userStateData: UserDeepModel) => async (dispatch: Dispatch<UserActions>) => {
   dispatch({ type: UPDATE_USER, payload: userStateData })
+}
+
+export const SetSQLUser = (userStateData: UserModelSQL) => async (dispatch: Dispatch<UserActions>) => {
+  dispatch({ type: SET_SQL_USER, payload: userStateData })
 }
 
 export const ResetUser = () => async (dispatch: Dispatch<UserActions>) => {

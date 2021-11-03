@@ -2,9 +2,9 @@ import { useNavigation } from '@react-navigation/native'
 import React, { useCallback, useEffect, useState } from 'react'
 import { FlatList, StyleSheet, Text, View } from 'react-native'
 import { useDispatch } from 'react-redux'
+import { IArticle } from '../../../data/services/server/article/ArticleTypes'
 import { useArticle, useArticlePage } from '../../../domain/hooks/ArticleHook'
 import { SetOpenedArticle } from '../../../domain/redux/ArticleStore'
-import { IArticle } from '../../../domain/types/article'
 import BackButton from '../../components/shared/buttons/BackButton'
 import { colors } from '../../style/colors'
 import { helperRealHeightDimension } from '../../style/UIGlobalHelper'
@@ -34,18 +34,21 @@ export default function StudyListScreen() {
     if (cacheArticleList.length) {
       setArticleList(cacheArticleList)
     }
-  }, [])
+  }, [cacheArticleList])
 
-  const onHandleNavigateArticlePage = useCallback((articleId: string) => {
-    dispatch(SetOpenedArticle(articleId))
+  const onHandleNavigateArticlePage = useCallback(
+    (articleId: string) => {
+      dispatch(SetOpenedArticle(articleId))
 
-    navigate('Study', {
-      screen: 'StudyArticle',
-      params: {
-        articleId
-      }
-    })
-  }, [])
+      navigate('Study', {
+        screen: 'StudyArticle',
+        params: {
+          articleId
+        }
+      })
+    },
+    [dispatch, navigate]
+  )
 
   return (
     <View style={styles.container}>

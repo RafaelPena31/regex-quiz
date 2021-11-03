@@ -5,14 +5,11 @@ import { useDispatch } from 'react-redux'
 import { useArticlePage } from '../../../domain/hooks/ArticleHook'
 import { SetArticle } from '../../../domain/redux/ArticleStore'
 import mockArticle from '../../../utils/articleMock.json'
-import images from '../../assets/images'
 import BackButton from '../../components/shared/buttons/BackButton'
 import { colors } from '../../style/colors'
 import { helperRealHeightDimension } from '../../style/UIGlobalHelper'
 import ArticleContainer from './components/articles/container/ArticleContainer'
 import OpenedArticleContainer from './components/articles/opened/OpenedArticleContainer'
-
-const { profilePic } = images
 
 const currentHeight = helperRealHeightDimension()
 
@@ -24,9 +21,7 @@ export default function StudyHallScreen() {
 
   useEffect(() => {
     dispatch(SetArticle(mockArticle))
-  }, [])
-
-  const isArticleAvailable = articleList.length > 0
+  }, [dispatch])
 
   return (
     <>

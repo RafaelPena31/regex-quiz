@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { showMessage } from 'react-native-flash-message'
-import { IAnswer } from '../../../../data/services/server/question/types/entities/IQuestion'
+import { IAnswer } from '../../../../data/services/server/userAnswer/AnswerTypes'
 import images from '../../../assets/images'
 import { colors } from '../../../style/colors'
 import QuestionModal from './QuestionModal'

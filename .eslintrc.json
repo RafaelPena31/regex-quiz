@@ -51,7 +51,7 @@
     "lines-between-class-members": "off",
     "@typescript-eslint/member-delimiter-style": "off",
     "camelcase": "off",
-,    "@typescript-eslint/camelcase": "off",
+    "@typescript-eslint/camelcase": "off",
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": "off",
     "import/prefer-default-export": "off",

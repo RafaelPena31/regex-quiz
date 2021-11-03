@@ -1,11 +1,11 @@
-import auth from '@react-native-firebase/auth'
 import { useNavigation } from '@react-navigation/native'
 import { Formik } from 'formik'
 import React from 'react'
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { showMessage } from 'react-native-flash-message'
 import { useDispatch } from 'react-redux'
-import { SetUser, UserModel } from '../../../domain/redux/UserStore'
+import { SignInUser } from '../../../data/services/server/user/UserService'
+import { SetSQLUser, SetUser } from '../../../domain/redux/UserStore'
 import images from '../../assets/images'
 import BackButton from '../../components/shared/buttons/BackButton'
 import Button from '../../components/shared/buttons/Button'
@@ -38,32 +38,18 @@ export default function SignInScreen() {
     const isInputAvailable = email.length > 5 && password.length > 5
 
     if (isInputAvailable) {
-      auth()
-        .signInWithEmailAndPassword(email, password)
-        .then(user => {
-          const { displayName, email, emailVerified, isAnonymous, metadata, phoneNumber, photoURL, providerId, uid } = user.user
+      const signInResponse = await SignInUser(email, password)
+      const { requestedStatus, response } = signInResponse
 
-          const userModel: UserModel = {
-            displayName,
-            email,
-            emailVerified,
-            isAnonymous,
-            metadata,
-            phoneNumber,
-            photoURL,
-            providerId,
-            uid
-          }
-
-          dispatch(SetUser(userModel))
+      if (requestedStatus.firebase.statusText === 'OK' && requestedStatus.sql.statusText === 'OK') {
+        dispatch(SetUser(response.firebase!))
+        dispatch(SetSQLUser(response.sql!))
+      } else {
+        showMessage({
+          message: 'Não foi possível realizar o seu login, tente novamente mais tarde',
+          type: 'danger'
         })
-        .catch(err => {
-          console.error(err)
-          showMessage({
-            message: 'Não foi possível realizar o seu login, tente novamente mais tarde',
-            type: 'danger'
-          })
-        })
+      }
     } else {
       showMessage({
         message: 'Preencha com os dados corretos',

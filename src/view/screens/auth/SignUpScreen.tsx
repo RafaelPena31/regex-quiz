@@ -1,11 +1,11 @@
-import auth from '@react-native-firebase/auth'
 import { useNavigation } from '@react-navigation/native'
 import { Formik } from 'formik'
 import React from 'react'
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { showMessage } from 'react-native-flash-message'
 import { useDispatch } from 'react-redux'
-import { SetUser, UserModel } from '../../../domain/redux/UserStore'
+import { CreateUser } from '../../../data/services/server/user/UserService'
+import { SetSQLUser, SetUser } from '../../../domain/redux/UserStore'
 import images from '../../assets/images'
 import BackButton from '../../components/shared/buttons/BackButton'
 import Button from '../../components/shared/buttons/Button'
@@ -43,36 +43,18 @@ export default function SignUpScreen() {
       name.length > 1 && email.length > 5 && password.length >= 6 && confirmPassword.length >= 6 && password === confirmPassword
 
     if (isInputAvailable) {
-      auth()
-        .createUserWithEmailAndPassword(email, password)
-        .then(user => {
-          const { displayName, email, emailVerified, isAnonymous, metadata, phoneNumber, photoURL, providerId, uid } = user.user
+      const createResponse = await CreateUser({ name, email, password })
+      const { requestedStatus, response } = createResponse
 
-          user.user.updateProfile({
-            displayName: name
-          })
-
-          const userModel: UserModel = {
-            displayName,
-            email,
-            emailVerified,
-            isAnonymous,
-            metadata,
-            phoneNumber,
-            photoURL,
-            providerId,
-            uid
-          }
-
-          dispatch(SetUser(userModel))
+      if (requestedStatus.firebase.statusText === 'Created' && requestedStatus.sql.statusText === 'Created') {
+        dispatch(SetUser(response.firebase!))
+        dispatch(SetSQLUser(response.sql!))
+      } else {
+        showMessage({
+          message: 'Não foi possível criar a sua conta, tente novamente mais tarde',
+          type: 'danger'
         })
-        .catch(err => {
-          console.error(err)
-          showMessage({
-            message: 'Não foi possível criar a sua conta, tente novamente mais tarde',
-            type: 'danger'
-          })
-        })
+      }
     } else {
       showMessage({
         message: 'Preencha com os dados corretos',

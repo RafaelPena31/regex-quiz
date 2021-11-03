@@ -1,5 +1,6 @@
 import { Dispatch } from 'redux'
-import { IAnswer, IQuestion } from '../../data/services/server/question/types/entities/IQuestion'
+import { IQuestion } from '../../data/services/server/question/QuestionTypes'
+import { IAnswer } from '../../data/services/server/userAnswer/AnswerTypes'
 
 export const SET_QUESTION = 'SET_QUESTION'
 export const RESET_QUESTION = 'RESET_QUESTION'

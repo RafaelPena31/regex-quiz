@@ -1,12 +1,12 @@
-import Auth from '@react-native-firebase/auth'
 import { useNavigation } from '@react-navigation/native'
 import { Formik } from 'formik'
 import React from 'react'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { showMessage } from 'react-native-flash-message'
 import { useDispatch } from 'react-redux'
-import { useGetUser } from '../../../domain/hooks/UserHook'
-import { UpdateUser, UserDeepModel } from '../../../domain/redux/UserStore'
+import { UpdateUser as UpdateUserService } from '../../../data/services/server/user/UserService'
+import { useGetSQLUser, useGetUser } from '../../../domain/hooks/UserHook'
+import { SetSQLUser, UpdateUser } from '../../../domain/redux/UserStore'
 import images from '../../assets/images'
 import BackButton from '../../components/shared/buttons/BackButton'
 import Button from '../../components/shared/buttons/Button'
@@ -29,6 +29,7 @@ export default function UpdateProfileInfoScreen() {
   const { goBack } = useNavigation()
   const dispatch = useDispatch()
   const currentUser = useGetUser()
+  const currentSQLUser = useGetSQLUser()
 
   const initialValues = {
     name: currentUser?.displayName ?? '',
@@ -43,28 +44,19 @@ export default function UpdateProfileInfoScreen() {
       name.length > 1 && email.length > 5 && password.length >= 6 && confirmPassword.length >= 6 && password === confirmPassword
 
     if (isInputAvailable) {
-      try {
-        await Auth().currentUser?.updateEmail(email)
-        await Auth().currentUser?.updatePassword(password)
-        await Auth().currentUser?.updateProfile({
-          displayName: name,
-          photoURL: Auth().currentUser?.photoURL
-        })
+      const updateResponse = await UpdateUserService(currentUser!.uid, currentSQLUser!, { name, email, password })
+      const { requestedStatus, response } = updateResponse
 
-        const userModel: UserDeepModel = {
-          displayName: name,
-          email: email
-        }
-
-        dispatch(UpdateUser(userModel))
+      if (requestedStatus.firebase.statusText === 'OK' && requestedStatus.sql.statusText === 'OK') {
+        dispatch(UpdateUser({ displayName: name, email }))
+        dispatch(SetSQLUser(response.sql!))
 
         showMessage({
           message: 'Dados atualizados com sucesso',
           type: 'success',
           onHide: () => goBack()
         })
-      } catch (error) {
-        console.error(error)
+      } else {
         showMessage({
           message: 'Não foi possível alterar os seus dados, tente deslogar e logar novamente',
           type: 'danger'
