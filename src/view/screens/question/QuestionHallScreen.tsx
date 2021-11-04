@@ -1,11 +1,12 @@
 import { RouteProp, useNavigation } from '@react-navigation/native'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Image, ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native'
+import { showMessage } from 'react-native-flash-message'
 import { useDispatch } from 'react-redux'
+import { FindAllQuestion } from '../../../data/services/server/question/QuestionService'
 import { IQuestion } from '../../../data/services/server/question/QuestionTypes'
 import { useChallenger } from '../../../domain/hooks/QuestionHook'
 import { SetQuestion } from '../../../domain/redux/QuestionStore'
-import { mockQuestions } from '../../../utils/mock'
 import images from '../../assets/images'
 import BackButton from '../../components/shared/buttons/BackButton'
 import CardButton from '../../components/shared/buttons/CardButton'
@@ -34,10 +35,24 @@ export default function QuestionHallScreen({ route }: QuestionChallengerScreenPr
 
   const finishedChallenger = useChallenger()
 
-  useEffect(() => {
-    setQuestionList(mockQuestions)
-    dispatch(SetQuestion(mockQuestions))
+  const fetchQuestions = useCallback(async () => {
+    const questionResponse = await FindAllQuestion()
+    const { requestedStatus, response } = questionResponse
+
+    if (requestedStatus.statusCode !== 500) {
+      setQuestionList(response!)
+      dispatch(SetQuestion(response!))
+    } else {
+      showMessage({
+        message: 'Não foi possível buscar os artigos, verifique sua conexão e tente novamente',
+        type: 'danger'
+      })
+    }
   }, [dispatch])
+
+  useEffect(() => {
+    fetchQuestions()
+  }, [fetchQuestions])
 
   useEffect(() => {
     const count: number[] = []
@@ -87,16 +102,16 @@ export default function QuestionHallScreen({ route }: QuestionChallengerScreenPr
 
           <View style={styles.cardOptionStack}>
             {challengerCount.map((countChallenger, index) => {
-              return getFinishedChallengers(countChallenger) ? (
-                <CardButton
-                  key={countChallenger}
-                  title={countChallenger.toString()}
-                  text='Desafio'
-                  dark={index === 0}
-                  onPress={() => onHandleStartChallenger(countChallenger)}
-                />
-              ) : (
-                <View key={countChallenger} />
+              return (
+                getFinishedChallengers(countChallenger) && (
+                  <CardButton
+                    key={countChallenger}
+                    title={countChallenger.toString()}
+                    text='Desafio'
+                    dark={index === 0}
+                    onPress={() => onHandleStartChallenger(countChallenger)}
+                  />
+                )
               )
             })}
           </View>

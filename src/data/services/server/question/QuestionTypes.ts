@@ -1,12 +1,20 @@
 import { TypeQuestions } from '../../../../domain/types/enum'
 import { IStatusRequest } from '../../../../domain/types/general'
 
+export interface IAlternative {
+  id: number
+  body: string
+  isCorrect: boolean
+  questionId: number
+}
+
 export interface IQuestion {
   id: string
   correctAnswer: string
   title: string
   type: TypeQuestions
   body: string
+  Alternatives: IAlternative[]
 }
 
 export interface ICreateQuestion {

@@ -1,4 +1,4 @@
 export enum TypeQuestions {
   BOOLEAN = 'boolean',
-  PRACTICAL = 'string'
+  PRACTICAL = 'multiple'
 }

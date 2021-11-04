@@ -3,12 +3,13 @@ import React, { useEffect, useState } from 'react'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { useAnswer } from '../../../domain/hooks/QuestionHook'
-import { ResetAnswer, ResetQuestion } from '../../../domain/redux/QuestionStore'
+import { ResetAnswer } from '../../../domain/redux/QuestionStore'
 import images from '../../assets/images'
 import Button from '../../components/shared/buttons/Button'
 import { colors } from '../../style/colors'
 import { helperRealHeightDimension } from '../../style/UIGlobalHelper'
 import QuestionCardButton from './components/QuestionCardButton'
+import { TOTAL_QUESTION_COUNT } from './constants/QuestionConstants'
 
 const { littleCompleteStudent } = images.hall
 
@@ -37,7 +38,6 @@ export default function QuestionResultScreen() {
   }, [currentAnswer])
 
   const onHandleNavigateToHall = () => {
-    dispatch(ResetQuestion())
     dispatch(ResetAnswer())
 
     navigate('Question', {
@@ -54,7 +54,9 @@ export default function QuestionResultScreen() {
         </View>
 
         <View style={styles.content}>
-          <Text style={styles.grade}>{totalGrade}/5</Text>
+          <Text style={styles.grade}>
+            {totalGrade}/{TOTAL_QUESTION_COUNT}
+          </Text>
 
           {currentAnswer &&
             Object.keys(currentAnswer).map(key => (

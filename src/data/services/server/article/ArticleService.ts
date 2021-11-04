@@ -3,7 +3,7 @@ import { IArticle, IPayloadFindAllArticleResponse, IPayloadFindArticleResponse }
 
 export const FindAllArticle = async (): Promise<IPayloadFindAllArticleResponse> => {
   try {
-    const response = await axiosClient.get<IArticle[]>('/article')
+    const response = await axiosClient.get<IArticle[]>('/articles')
 
     return {
       requestedStatus: {
@@ -27,7 +27,7 @@ export const FindAllArticle = async (): Promise<IPayloadFindAllArticleResponse> 
 
 export const FindArticleById = async (articleId: string): Promise<IPayloadFindArticleResponse> => {
   try {
-    const response = await axiosClient.get<IArticle>(`/article/${articleId}`)
+    const response = await axiosClient.get<IArticle>(`/articles/${articleId}`)
 
     return {
       requestedStatus: {

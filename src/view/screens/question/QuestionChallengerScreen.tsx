@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux'
 import { IQuestion } from '../../../data/services/server/question/QuestionTypes'
 import { IAnswer } from '../../../data/services/server/userAnswer/AnswerTypes'
 import { useQuestion } from '../../../domain/hooks/QuestionHook'
+import { useGetSQLUserId } from '../../../domain/hooks/UserHook'
 import { SetAnswer, SetFinishedChallenger } from '../../../domain/redux/QuestionStore'
 import { TypeQuestions } from '../../../domain/types/enum'
 import Button from '../../components/shared/buttons/Button'
@@ -31,6 +32,7 @@ export default function QuestionChallengerScreen({ route }: QuestionChallengerSc
   const dispatch = useDispatch()
 
   const cacheQuestionList = useQuestion()
+  const userId = useGetSQLUserId()
 
   /** @constant Current_Question -> Current question Index */
   const [currentQuestion, setCurrentQuestion] = useState(1)
@@ -48,14 +50,6 @@ export default function QuestionChallengerScreen({ route }: QuestionChallengerSc
     },
     question_3: {
       index: 3,
-      answer: ''
-    },
-    question_4: {
-      index: 4,
-      answer: ''
-    },
-    question_5: {
-      index: 5,
       answer: ''
     }
   })
@@ -226,26 +220,10 @@ export default function QuestionChallengerScreen({ route }: QuestionChallengerSc
         answer: questionListAnswer.question_3.answer,
         correctAnswer: questionList[2].correctAnswer,
         isCorrect: `${questionListAnswer.question_3.answer}` === questionList[2].correctAnswer
-      },
-      question_4: {
-        index: 4,
-        questionId: questionList[3].id,
-        questionType: questionList[3].type,
-        answer: questionListAnswer.question_4.answer,
-        correctAnswer: questionList[3].correctAnswer,
-        isCorrect: `${questionListAnswer.question_4.answer}` === questionList[3].correctAnswer
-      },
-      question_5: {
-        index: 5,
-        questionId: questionList[4].id,
-        questionType: questionList[4].type,
-        answer: questionListAnswer.question_5.answer,
-        correctAnswer: questionList[4].correctAnswer,
-        isCorrect: `${questionListAnswer.question_5.answer}` === questionList[4].correctAnswer
       }
     }
 
-    dispatch(SetAnswer(answerList))
+    dispatch(SetAnswer(answerList, userId!))
     dispatch(SetFinishedChallenger(challengerId))
     navigate('Question', {
       screen: 'QuestionResult'
@@ -290,6 +268,13 @@ export default function QuestionChallengerScreen({ route }: QuestionChallengerSc
     return ''
   }
 
+  const getCurrentQuestionAlternative = () => {
+    if (isQuestionListAvailable && !isQuestionTypeBoolean) {
+      return questionList[currentQuestion - 1].Alternatives
+    }
+    return []
+  }
+
   return (
     <ScrollView style={{ flex: 1 }}>
       <View style={styles.container}>
@@ -306,7 +291,7 @@ export default function QuestionChallengerScreen({ route }: QuestionChallengerSc
         {isQuestionTypeBoolean ? (
           <QuestionBoolean answer={currentBooleanAnswer} setAnswer={setCurrentBooleanAnswer} />
         ) : (
-          <QuestionString answer={currentStringAnswer} setAnswer={setCurrentStringAnswer} />
+          <QuestionString alternative={getCurrentQuestionAlternative()} answer={currentStringAnswer} setAnswer={setCurrentStringAnswer} />
         )}
 
         <View style={styles.buttonContent}>

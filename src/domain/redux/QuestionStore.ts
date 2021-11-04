@@ -1,6 +1,7 @@
 import { Dispatch } from 'redux'
 import { IQuestion } from '../../data/services/server/question/QuestionTypes'
-import { IAnswer } from '../../data/services/server/userAnswer/AnswerTypes'
+import { CreateManyAnswer } from '../../data/services/server/userAnswer/AnswerService'
+import { IAnswer, ICreateUserAnswer } from '../../data/services/server/userAnswer/AnswerTypes'
 
 export const SET_QUESTION = 'SET_QUESTION'
 export const RESET_QUESTION = 'RESET_QUESTION'
@@ -97,7 +98,17 @@ export const ResetQuestion = () => async (dispatch: Dispatch<QuestionActions>) =
   dispatch({ type: RESET_QUESTION })
 }
 
-export const SetAnswer = (answer: Record<string, IAnswer>) => async (dispatch: Dispatch<QuestionActions>) => {
+export const SetAnswer = (answer: Record<string, IAnswer>, userId: string) => async (dispatch: Dispatch<QuestionActions>) => {
+  console.log(userId)
+
+  const answerPayload: ICreateUserAnswer[] = Object.keys(answer).map(key => ({
+    questionId: answer[key].questionId!,
+    userAnswer: `${answer[key].answer}`,
+    userId: userId
+  }))
+
+  await CreateManyAnswer({ answers: answerPayload })
+
   dispatch({ type: SET_ANSWER, payload: answer })
 }
 

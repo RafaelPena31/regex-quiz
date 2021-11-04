@@ -1,10 +1,11 @@
 import { useNavigation } from '@react-navigation/native'
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { StatusBar, StyleSheet, Text, View } from 'react-native'
+import { showMessage } from 'react-native-flash-message'
 import { useDispatch } from 'react-redux'
+import { FindAllArticle } from '../../../data/services/server/article/ArticleService'
 import { useArticlePage } from '../../../domain/hooks/ArticleHook'
 import { SetArticle } from '../../../domain/redux/ArticleStore'
-import mockArticle from '../../../utils/articleMock.json'
 import BackButton from '../../components/shared/buttons/BackButton'
 import { colors } from '../../style/colors'
 import { helperRealHeightDimension } from '../../style/UIGlobalHelper'
@@ -19,9 +20,23 @@ export default function StudyHallScreen() {
 
   const articleList = useArticlePage(1)
 
-  useEffect(() => {
-    dispatch(SetArticle(mockArticle))
+  const fetchAllArticle = useCallback(async () => {
+    const articleResponse = await FindAllArticle()
+    const { requestedStatus, response } = articleResponse
+
+    if (requestedStatus.statusCode !== 500) {
+      dispatch(SetArticle(response!))
+    } else {
+      showMessage({
+        message: 'Não foi possível buscar os artigos, verifique sua conexão e tente novamente',
+        type: 'danger'
+      })
+    }
   }, [dispatch])
+
+  useEffect(() => {
+    fetchAllArticle()
+  }, [fetchAllArticle])
 
   return (
     <>

@@ -1,5 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack'
 import React from 'react'
+import AboutScreen from '../screens/about/AboutScreen'
 import MainHallScreen from '../screens/hall/MainHallScreen'
 import ProfileStack from './features/ProfileStack'
 import QuestionStack from './features/QuestionStack'
@@ -17,6 +18,7 @@ export default function RootStack() {
       <Screen name='Profile' component={ProfileStack} />
       <Screen name='Question' component={QuestionStack} />
       <Screen name='Study' component={StudyStack} />
+      <Screen name='About' component={AboutScreen} />
     </Navigator>
   )
 }

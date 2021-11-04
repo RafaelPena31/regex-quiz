@@ -18,9 +18,9 @@ export interface IUserAnswer {
 }
 
 export interface ICreateUserAnswer {
-  user_id: string
+  userId: string
   userAnswer: string
-  question_id: string
+  questionId: string
 }
 
 export interface IPayloadCreateAnswerResponse {
