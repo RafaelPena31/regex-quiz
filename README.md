@@ -17,3 +17,6 @@ These are the guys who made it possible 😄
 * Fernando Rodrigues > Backend/DevOps Dev
 * Rafael Augusto Pena > Mobile Dev
 * Pedro Henrique Souza > Backend Dev 
+
+#### Hey just a note!
+Our backend server is currently running on Heroku, when using there may be some inconsistencies or slowness
