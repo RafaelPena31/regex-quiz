@@ -12,7 +12,7 @@ https://reactnative.dev/docs/environment-setup
 * Password: rafael
 
 ### Android only APK download
-https://drive.google.com/file/d/1Ig3kOXdsF-CWyQrTQvXD6NRska8FFlVr/view?usp=sharing
+https://drive.google.com/file/d/1OpydMDdTBip7T7pKQloHF_0AaYpfJf5-/view?usp=sharing
 
 ---
 * That's it!! Just follow the configuration and have fun!!
