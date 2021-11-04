@@ -7,6 +7,12 @@ Below there are all the configuration provided by the official's react documenta
 
 https://reactnative.dev/docs/environment-setup
 
+### Keys to build App
+* Key Store path: RgexQuiz
+* Password: rafael
+
+#### Android only
+
 ---
 * That's it!! Just follow the configuration and have fun!!
 
