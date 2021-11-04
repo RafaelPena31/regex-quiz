@@ -4,7 +4,7 @@ import React, { useCallback } from 'react'
 import { Image, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Icon from 'react-native-vector-icons/Feather'
 import { useDispatch } from 'react-redux'
-import { useGetScore, useUserName } from '../../../domain/hooks/UserHook'
+import { useGetCreatedAt, useGetScore, useUserName } from '../../../domain/hooks/UserHook'
 import { ResetOpenedArticle } from '../../../domain/redux/ArticleStore'
 import { ResetAnswer, ResetQuestion } from '../../../domain/redux/QuestionStore'
 import { ResetUser } from '../../../domain/redux/UserStore'
@@ -23,6 +23,7 @@ export default function ProfileInfoScreen() {
   const dispatch = useDispatch()
   const userName = useUserName()
   const userScore = useGetScore()
+  const createdAtMonth = useGetCreatedAt()
 
   const getName = (text?: string | null) => {
     if (text) {
@@ -69,7 +70,7 @@ export default function ProfileInfoScreen() {
             <Image source={littleCompleteStudent} style={styles.profileImage} />
 
             <Text style={styles.label}>
-              Aluno há <Text style={styles.bold}>6</Text> meses
+              Aluno há <Text style={styles.bold}>{createdAtMonth}</Text> meses
             </Text>
 
             <View style={styles.line}>

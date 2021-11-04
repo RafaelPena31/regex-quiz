@@ -7,17 +7,17 @@ import { colors } from '../../../style/colors'
 
 interface AboutModalProps {
   url: string
+  name: string
+  role: string
   visible: boolean
   setVisible: () => void
 }
 
-export default function AboutModal({ url, visible, setVisible }: AboutModalProps) {
+export default function AboutModal({ name, role, url, visible, setVisible }: AboutModalProps) {
   const onHandleOpenExternalURL = async () => {
     const isAvailableURL = await Linking.canOpenURL(url)
 
-    console.log(url, isAvailableURL)
     if (isAvailableURL) {
-      console.log('pode')
       Linking.openURL(url)
     } else {
       showMessage({
@@ -30,8 +30,8 @@ export default function AboutModal({ url, visible, setVisible }: AboutModalProps
   return (
     <Modal isVisible={visible} onSwipeComplete={setVisible} onBackdropPress={setVisible} swipeDirection={['down']} style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.title}>Rafael Augusto Pena</Text>
-        <Text style={styles.subTile}>FrontEnd Software Engineer - Mobile | Web</Text>
+        <Text style={styles.title}>{name}</Text>
+        <Text style={styles.subTile}>{role}</Text>
 
         <Button text='Saiba mais' onPress={onHandleOpenExternalURL} />
       </View>

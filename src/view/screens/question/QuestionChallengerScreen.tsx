@@ -8,6 +8,7 @@ import { IAnswer } from '../../../data/services/server/userAnswer/AnswerTypes'
 import { useQuestion } from '../../../domain/hooks/QuestionHook'
 import { useGetSQLUserId } from '../../../domain/hooks/UserHook'
 import { SetAnswer, SetFinishedChallenger } from '../../../domain/redux/QuestionStore'
+import { UpdateScoreUser } from '../../../domain/redux/UserStore'
 import { TypeQuestions } from '../../../domain/types/enum'
 import Button from '../../components/shared/buttons/Button'
 import { colors } from '../../style/colors'
@@ -196,6 +197,8 @@ export default function QuestionChallengerScreen({ route }: QuestionChallengerSc
    * @description Method responsible for finish the challenger
    */
   const onHandleFinishChallenger = () => {
+    let points = 0
+
     const answerList: Record<string, IAnswer> = {
       question_1: {
         index: 1,
@@ -223,8 +226,15 @@ export default function QuestionChallengerScreen({ route }: QuestionChallengerSc
       }
     }
 
+    Object.keys(answerList).forEach(key => {
+      if (answerList[key].isCorrect) {
+        points = points + 1
+      }
+    })
+
     dispatch(SetAnswer(answerList, userId!))
     dispatch(SetFinishedChallenger(challengerId))
+    dispatch(UpdateScoreUser(points, userId!))
     navigate('Question', {
       screen: 'QuestionResult'
     })
@@ -330,7 +340,7 @@ const styles = StyleSheet.create({
   },
   questionText: {
     fontFamily: 'Inter-Regular',
-    fontSize: 24,
+    fontSize: 22,
     lineHeight: 30,
     color: colors.text.default
   },

@@ -99,13 +99,13 @@ export const ResetQuestion = () => async (dispatch: Dispatch<QuestionActions>) =
 }
 
 export const SetAnswer = (answer: Record<string, IAnswer>, userId: string) => async (dispatch: Dispatch<QuestionActions>) => {
-  console.log(userId)
-
-  const answerPayload: ICreateUserAnswer[] = Object.keys(answer).map(key => ({
-    questionId: answer[key].questionId!,
-    userAnswer: `${answer[key].answer}`,
-    userId: userId
-  }))
+  const answerPayload: ICreateUserAnswer[] = Object.keys(answer).map(key => {
+    return {
+      questionId: answer[key].questionId!,
+      userAnswer: `${answer[key].answer}`,
+      userId: userId
+    }
+  })
 
   await CreateManyAnswer({ answers: answerPayload })
 

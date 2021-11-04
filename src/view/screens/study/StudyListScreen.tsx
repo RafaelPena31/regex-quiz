@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { FlatList, StyleSheet, Text, View } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { IArticle } from '../../../data/services/server/article/ArticleTypes'
@@ -15,26 +15,21 @@ const currentHeight = helperRealHeightDimension()
 export default function StudyListScreen() {
   const { goBack, navigate } = useNavigation()
   const dispatch = useDispatch()
-
   const [page, setPage] = useState(1)
-  const [articleList, setArticleList] = useState<IArticle[]>([])
+
+  const cacheArticleList = useArticlePage(page)
+
+  const [articleList, setArticleList] = useState<IArticle[]>(cacheArticleList)
 
   const completeArticleList = useArticle()
-  const cacheArticleList = useArticlePage(page)
 
   const onHandleLoadArticle = () => {
     const newPage = page + 1
-    const newList = completeArticleList.slice(newPage * 10 - 10, newPage * 10)
+    const newList = completeArticleList.slice(newPage * 4 - 4, newPage * 4)
 
     setPage(state => state + 1)
     setArticleList([...articleList, ...newList])
   }
-
-  useEffect(() => {
-    if (cacheArticleList.length) {
-      setArticleList(cacheArticleList)
-    }
-  }, [cacheArticleList])
 
   const onHandleNavigateArticlePage = useCallback(
     (articleId: string) => {

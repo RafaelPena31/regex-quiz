@@ -210,3 +210,11 @@ export const SignInUser = async (email: string, password: string): Promise<IPayl
     }
   }
 }
+
+export const UpdateScore = async (score: number, userId: string): Promise<void> => {
+  try {
+    await axiosClient.put(`/score/users/${score}/${userId}`)
+  } catch (error) {
+    console.error(error)
+  }
+}

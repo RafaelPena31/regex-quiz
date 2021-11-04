@@ -9,3 +9,12 @@ export const useGetSQLUserId = () => useSelector((state: RootState) => state.use
 export const useGetUserId = () => useSelector((state: RootState) => state.user.userStateData?.uid)
 export const useGetScore = () => useSelector((state: RootState) => state.user.userSQLStateData?.score)
 export const useUserName = () => useSelector((state: RootState) => state.user.userStateData?.displayName)
+export const useGetCreatedAt = () =>
+  useSelector((state: RootState) => {
+    const date = state.user.userStateData?.metadata.creationTime
+
+    if (date) {
+      return new Date(date).getMonth() - new Date().getMonth()
+    }
+    return 0
+  })

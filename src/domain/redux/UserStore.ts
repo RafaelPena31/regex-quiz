@@ -1,4 +1,5 @@
 import { Dispatch } from 'redux'
+import { UpdateScore } from '../../data/services/server/user/UserService'
 import { UserModel, UserModelSQL } from '../../data/services/server/user/UserTypes'
 
 export interface UserDeepModel {
@@ -8,6 +9,7 @@ export interface UserDeepModel {
 
 export const SET_USER = 'SET_USER'
 export const UPDATE_USER = 'UPDATE_USER'
+export const UPDATE_SCORE_USER = 'UPDATE_SCORE_USER'
 
 export const SET_SQL_USER = 'SET_SQL_USER'
 
@@ -21,6 +23,11 @@ interface ISetUser {
 interface IUpdateUser {
   type: typeof UPDATE_USER
   payload: UserDeepModel
+}
+
+interface IUpdateScoreUser {
+  type: typeof UPDATE_SCORE_USER
+  payload: number
 }
 
 interface ISetSQLUser {
@@ -37,7 +44,7 @@ export interface UserModelState {
   userSQLStateData: UserModelSQL | null
 }
 
-export type UserActions = ISetUser | IUpdateUser | ISetSQLUser | IResetUser
+export type UserActions = ISetUser | IUpdateUser | ISetSQLUser | IResetUser | IUpdateScoreUser
 
 export const userState: UserModelState = {
   userStateData: null,
@@ -70,6 +77,14 @@ export const UserReducer = (state = userState, action: UserActions) => {
         userStateData: null,
         userSQLStateData: null
       }
+    case UPDATE_SCORE_USER:
+      return {
+        ...state,
+        userSQLStateData: {
+          ...state.userSQLStateData,
+          score: (state.userSQLStateData?.score ?? 0) + action.payload
+        } as UserModelSQL
+      }
     default:
       return state
   }
@@ -77,6 +92,12 @@ export const UserReducer = (state = userState, action: UserActions) => {
 
 export const SetUser = (userStateData: UserModel) => async (dispatch: Dispatch<UserActions>) => {
   dispatch({ type: SET_USER, payload: userStateData })
+}
+
+export const UpdateScoreUser = (score: number, userId: string) => async (dispatch: Dispatch<UserActions>) => {
+  await UpdateScore(score, userId)
+
+  dispatch({ type: UPDATE_SCORE_USER, payload: score })
 }
 
 export const UpdateUser = (userStateData: UserDeepModel) => async (dispatch: Dispatch<UserActions>) => {
