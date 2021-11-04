@@ -11,7 +11,8 @@ https://reactnative.dev/docs/environment-setup
 * Key Store path: RgexQuiz
 * Password: rafael
 
-#### Android only
+### Android only APK download
+https://drive.google.com/file/d/1Ig3kOXdsF-CWyQrTQvXD6NRska8FFlVr/view?usp=sharing
 
 ---
 * That's it!! Just follow the configuration and have fun!!
