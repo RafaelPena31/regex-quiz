@@ -13,10 +13,10 @@ export const CreateUser = async (firestorePayload: IUserFirestore): Promise<IPay
       displayName: name
     })
 
-    const { displayName, emailVerified, isAnonymous, metadata, phoneNumber, photoURL, providerId, uid } = firebaseResponse.user
+    const { emailVerified, isAnonymous, metadata, phoneNumber, photoURL, providerId, uid } = firebaseResponse.user
 
     const userModel: UserModel = {
-      displayName,
+      displayName: name,
       email,
       emailVerified,
       isAnonymous,

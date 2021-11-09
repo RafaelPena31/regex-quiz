@@ -44,10 +44,10 @@ export default function UpdateProfileInfoScreen() {
       name.length > 1 && email.length > 5 && password.length >= 6 && confirmPassword.length >= 6 && password === confirmPassword
 
     if (isInputAvailable) {
-      const updateResponse = await UpdateUserService(currentUser!.uid, currentSQLUser!, { name, email, password })
+      const updateResponse = await UpdateUserService(currentSQLUser!.id, currentSQLUser!, { name, email, password })
       const { requestedStatus, response } = updateResponse
 
-      if (requestedStatus.firebase.statusText === 'OK' && requestedStatus.sql.statusText === 'OK') {
+      if (requestedStatus.firebase.statusText === 'Created' && requestedStatus.sql.statusText === 'Created') {
         dispatch(UpdateUser({ displayName: name, email }))
         dispatch(SetSQLUser(response.sql!))
 
